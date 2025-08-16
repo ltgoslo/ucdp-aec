@@ -1,0 +1,7 @@
+[project]
+name = "t5"
+version = "2025.02.07"
+authors = [{name = "Anonymous", email = "Anonymous@anonymous.anonymous"}]
+dependencies = ["datasets", "torch", "transformers", "accelerate", "tensorboard"]
+readme = "README.md"
+license = {text = "GNU AGPLv3"}

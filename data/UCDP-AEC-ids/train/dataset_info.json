@@ -1,0 +1,109 @@
+{
+  "builder_name": "ucdp_connector.UCDPDataset",
+  "citation": "",
+  "config_name": "aec",
+  "dataset_name": "ucdp-aec",
+  "dataset_size": 156390318,
+  "description": "UCDP Abstractive Event analysis Corpus",
+  "download_checksums": {},
+  "download_size": 0,
+  "features": {
+    "id": {
+      "dtype": "uint32",
+      "_type": "Value"
+    },
+    "source_article": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "source_date": {
+      "dtype": "timestamp[s]",
+      "_type": "Value"
+    },
+    "deaths_side_a": {
+      "dtype": "uint32",
+      "_type": "Value"
+    },
+    "deaths_side_b": {
+      "dtype": "uint32",
+      "_type": "Value"
+    },
+    "deaths_civilian": {
+      "dtype": "uint32",
+      "_type": "Value"
+    },
+    "deaths_unknown": {
+      "dtype": "uint32",
+      "_type": "Value"
+    },
+    "deaths_low": {
+      "dtype": "uint32",
+      "_type": "Value"
+    },
+    "deaths_high": {
+      "dtype": "uint32",
+      "_type": "Value"
+    },
+    "side_a_name": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "side_b_name": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "location_root_name": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "location_adm1_name": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "location_adm2_name": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "location_where_name": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "start_date": {
+      "dtype": "date32",
+      "_type": "Value"
+    },
+    "end_date": {
+      "dtype": "date32",
+      "_type": "Value"
+    }
+  },
+  "homepage": "https://github.com/ltgoslo/ucdp-aec",
+  "license": "CC-BY",
+  "size_in_bytes": 156390318,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 102388962,
+      "num_examples": 74216,
+      "dataset_name": "ucdp-aec"
+    },
+    "validation": {
+      "name": "validation",
+      "num_bytes": 9352886,
+      "num_examples": 6784,
+      "dataset_name": "ucdp-aec"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 44648470,
+      "num_examples": 29194,
+      "dataset_name": "ucdp-aec"
+    }
+  },
+  "version": {
+    "version_str": "2025.04.22",
+    "major": 2025,
+    "minor": 4,
+    "patch": 22
+  }
+}

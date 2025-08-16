@@ -1,0 +1,16 @@
+UCDP_FIELDS = [
+    ("side_a_name", "side A", "actors"),
+    ("side_b_name", "side B", "actors"),
+    ("start_date", "start date", "date"),
+    ("end_date", "end date", "date"),
+    ("location_root_name", "country", "location"),
+    ("location_adm1_name", "region", "location"),
+    ("location_adm2_name", "subregion", "location"),
+    ("location_where_name", "location", "location"),
+    ("deaths_side_a", "side A deaths", "deaths"),
+    ("deaths_side_b", "side B deaths", "deaths"),
+    ("deaths_civilian", "civilian deaths", "deaths"),
+    ("deaths_unknown", "unknown deaths", "deaths"),
+    ("deaths_low", "low estimate deaths", "deaths"),
+    ("deaths_high", "high estimate deaths", "deaths"),
+]

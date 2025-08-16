@@ -1,0 +1,50 @@
+asttokens @ file:///opt/conda/conda-bld/asttokens_1646925590279/work
+attrs==24.2.0
+Bottleneck @ file:///croot/bottleneck_1709069899917/work
+contourpy @ file:///work/perseverance-python-buildout/croot/contourpy_1701756524386/work
+cycler @ file:///tmp/build/80754af9/cycler_1637851556182/work
+decorator @ file:///opt/conda/conda-bld/decorator_1643638310831/work
+easybuild-easyblocks @ file:///nird/datalake/NS8112K/software/eb/build/EasyBuild/4.7.1/system-system/easybuild-easyblocks-4.7.1
+easybuild-easyconfigs @ file:///nird/datalake/NS8112K/software/eb/build/EasyBuild/4.7.1/system-system/easybuild-easyconfigs-4.7.1
+easybuild-framework @ file:///nird/datalake/NS8112K/software/eb/build/EasyBuild/4.7.1/system-system/easybuild-framework-4.7.1
+executing==2.1.0
+fancycompleter==0.9.1
+fire==0.6.0
+fonttools @ file:///croot/fonttools_1713551344105/work
+gaoya==0.1.2
+ipython==8.27.0
+jedi @ file:///croot/jedi_1721058342488/work
+kiwisolver @ file:///work/perseverance-python-buildout/croot/kiwisolver_1698847502605/work
+matplotlib==3.9.2
+matplotlib-inline @ file:///work/perseverance-python-buildout/croot/matplotlib-inline_1698864771271/work
+mkl-service==2.4.0
+mkl_fft @ file:///croot/mkl_fft_1725370245198/work
+mkl_random @ file:///croot/mkl_random_1725370241878/work
+numexpr @ file:///work/perseverance-python-buildout/croot/numexpr_1698871031164/work
+numpy @ file:///croot/numpy_and_numpy_base_1708638617955/work/dist/numpy-1.26.4-cp312-cp312-linux_x86_64.whl#sha256=1d700f51d8b4fa684d858c9e3b56b1656bc5c82b6b79ff08d4e3b491c430059f
+packaging @ file:///croot/packaging_1720101850331/work
+pandas @ file:///croot/pandas_1718308974269/work/dist/pandas-2.2.2-cp312-cp312-linux_x86_64.whl#sha256=92c518f7e09edd50b5caa5862636c51d6a29391803f3ada62f68aa52f27d8f92
+parso @ file:///opt/conda/conda-bld/parso_1641458642106/work
+pdbpp==0.10.3
+pexpect==4.9.0
+pillow @ file:///croot/pillow_1721059439630/work
+prompt_toolkit==3.0.47
+ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
+pure_eval==0.2.3
+Pygments==2.18.0
+pyparsing @ file:///croot/pyparsing_1725041624202/work
+pyrepl==0.9.0
+python-dateutil @ file:///croot/python-dateutil_1716495738603/work
+pytz @ file:///croot/pytz_1713974312559/work
+seaborn @ file:///croot/seaborn_1718302919398/work
+setuptools==72.1.0
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+stack-data @ file:///opt/conda/conda-bld/stack_data_1646927590127/work
+termcolor==2.4.0
+traitlets @ file:///croot/traitlets_1718227057033/work
+tzdata @ file:///croot/python-tzdata_1690578112552/work
+unicodedata2 @ file:///croot/unicodedata2_1713212950228/work
+wcwidth==0.2.13
+wheel==0.43.0
+wmctrl==0.5
+zstandard==0.23.0
