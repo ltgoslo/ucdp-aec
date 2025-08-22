@@ -1,7 +1,7 @@
 # UCDP-AEC (Abstractive Event analysis Corpus)
 
 This repository contains the software and data associated with the paper:<br>
-**Abstractive Event Analysis of Armed Conflicts: Introducing the UCDP-AEC Dataset**
+[**Abstractive Event Analysis of Armed Conflicts: Introducing the UCDP-AEC Dataset**](https://esimon.eu/CPSS2025/paper.pdf)
 
 ## Dataset Preparation
 
@@ -34,6 +34,22 @@ The `hplt_align` directory contains code used for HPLT document matching.
 The `analysis` directory contains scripts we used to generate the statistics given in the paper.
 
 The `baselines` directory contains model code used in the experiments, some subdirectories are modified version of existing code: [Text2Event](https://github.com/luyaojie/Text2Event) and [DEGREE](https://github.com/PlusLabNLP/DEGREE). See the dedicated [README](baselines/README.md) for details on how to run the models.
+
+## Citation
+
+The proceedings are not published yet, but a preprint can be found [here](https://esimon.eu/CPSS2025/paper.pdf).
+
+```
+@inproceedings{simon-etal-2025-abstractive,
+    title     = {Abstractive Event Analysis of Armed Conflicts: Introducing the {UCDP-AEC} Dataset},
+    author    = {Simon, \'{E}tienne and Olsen, Helene B\o{}sei and Carre\~{n}o, Ram\'{o}n and Mishra, Rahul and Arefyev, Nikolay and Yilmaz, Mert Can and \O{}vrelid, Lilja and Velldal, Erik},
+    year      = {2025},
+    month     = sep,
+    booktitle = {Proceedings of the 5th Workshop on Computational Linguistics for the Political and Social Sciences},
+    publisher = {Association for Computational Linguistics},
+    address   = {Hildesheim, Germany},
+}
+```
 
 ## Licence
 
