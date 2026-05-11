@@ -1,14 +1,17 @@
 from typing import Any, Iterator
 import argparse
+import bisect
 import collections
+import io
 import json
-import os
+import operator
 import pathlib
-import requests
+import struct
 import sys
 import urllib.request
 
 import tqdm
+import zstandard
 
 
 CACHE_URL: str = "https://recurrent.network/AEC/2025.cache"
@@ -44,64 +47,85 @@ def process_jsonl_split(output_path: pathlib.Path, split_path: pathlib.Path, hpl
             print(json.dumps(sample), file=output_file)
 
 
-def hplt_stream_lines(file: str) -> Iterator[str]:
-    import zstandard
-    response = requests.get(f"{HPLT_URL_PREFIX}/{file}", stream=True)
-    response.raise_for_status()
-    file_size = int(response.headers.get("content-length", 0))
-    with tqdm.tqdm(desc=file, total=file_size, unit="B", unit_scale=True) as progress_bar:
-        decompressor = zstandard.ZstdDecompressor().decompressobj()
-        data_buffer: bytes = b""
-        for chunk in response.iter_content(chunk_size=DOWNLOAD_CHUNK_SIZE):
-            progress_bar.update(len(chunk))
-            data_buffer += decompressor.decompress(chunk)
-            if data_buffer:
-                lines: list[bytes] = data_buffer.split(b"\n")
-                data_buffer = lines[-1]
-                yield from map(bytes.decode, lines[:-1])
-        if data_buffer:
-            yield data_buffer
+def hplt_build_index(url: str) -> list[tuple[int, int]]:
+    with urllib.request.urlopen(url) as file:
+        data: bytes = file.read()
+
+    filename_length: int = data.find(b'\0')
+    header_length: int = filename_length + 5
+    number_of_frames: int = struct.unpack("<I", data[filename_length+1:header_length])[0]
+
+    cumulative_sum: tuple[int, int] = (0, 0)
+    index: list[tuple[int, int]] = [cumulative_sum]
+    for i in range(number_of_frames):
+        start: int = header_length + i*8
+        newlines, compressed_size = struct.unpack("<2I", data[start:start+8])
+        cumulative_sum = (cumulative_sum[0] + newlines, cumulative_sum[1] + compressed_size)
+        index.append(cumulative_sum)
+    return index
 
 
-def hplt_cacheless_download_lines(file: str, line_numbers: list[int]) -> dict[str, str]:
+def hplt_get_line(url: str, index: list[tuple[str, str]], line_number: int) -> str:
+    right = bisect.bisect_right(index, line_number, key=operator.itemgetter(0))
+    left = right - 1
+    while left > 0 and index[left][0] == line_number:
+        left -= 1
+    newlines_offset = index[left][0]
+
+    start = index[left][1]
+    end = index[right][1]
+
+    with urllib.request.urlopen(
+            urllib.request.Request(url,
+                                   headers={"Range": f"bytes={start}-{end-1}"})) as file:
+        data: bytes = file.read()
+        assert(len(data) == end - start)
+
+    decompressor = zstandard.ZstdDecompressor()
+    reader = decompressor.stream_reader(io.BytesIO(data), read_across_frames=True)
+    return reader.readall().split(b'\n')[line_number - newlines_offset].decode()
+
+
+def hplt_download_lines(filename: str, line_numbers: list[int]) -> dict[str, str]:
+    indexable_path: str = f"{HPLT_URL_PREFIX}/{filename[:-4]}.1M.zst"
+    index_path: str = f"{indexable_path}.zindex"
+
+    index: list[tuple[int, int]] = hplt_build_index(index_path)
+
     data: dict[str, str] = {}
-    lines_to_select: set[int] = set(line_numbers)
     line_number: int
-    line: str
-    for line_number, line in enumerate(hplt_stream_lines(file), start=1):
-        if line_number in lines_to_select:
-            document: dict[str, str] = json.loads(line)
-            data[f"{file}:{line_number}"] = document["text"]
-            lines_to_select.remove(line_number)
-            if not lines_to_select:
-                break
-    if lines_to_select:
-        raise RuntimeError(f"Invalid document id {file}:{lines_to_select}")
+    for line_number in set(line_numbers):
+        line: str = hplt_get_line(indexable_path, index, line_number - 1)
+        sample: dict[str, Any] = json.loads(line)
+        data[f"{filename}:{line_number}"] = sample["text"]
     return data
 
 
-def hplt_cacheless_data(hplt_ids: list[str]) -> dict[str, str]:
+def get_hplt_data(hplt_ids: list[str]) -> dict[str, str]:
     files: dict[str, list[int]] = collections.defaultdict(list)
     for hplt_id in hplt_ids:
         file, line_number = hplt_id.split(":")
         files[file].append(int(line_number))
     data: dict[str, str] = {}
-    for file, line_numbers in files.items():
-        data.update(hplt_cacheless_download_lines(file, line_numbers))
+    for file, line_numbers in tqdm.tqdm(files.items(), desc="Downloading from HPLT"):
+        data.update(hplt_download_lines(file, line_numbers))
     return data
 
 
-def hplt_cached_data(hplt_ids: list[str]) -> dict[str, str]:
+def get_hplt_cache(hplt_ids: list[str]) -> dict[str, str]:
+    cache: dict[str, str] = {}
     try:
-        cache: dict[str, str] = {}
         with urllib.request.urlopen(CACHE_URL) as cache_file:
             for line in cache_file:
                 cached_document: dict[str, str] = json.loads(line)
                 cache[cached_document["id"]] = cached_document["text"]
-        return cache
-    except:
-        print("\n===========================================================================================\nERROR: You need to update the UCDP-AEC repository, the current version has been deprecated.\n===========================================================================================", file=sys.stderr)
-        raise
+    except urllib.error.HTTPError as error:
+        if error.code == 404:
+            print("ERROR: The cache data was invalidated, try updating the repository or using the cacheless downloader (--no-cache).", file=sys.stderr)
+            sys.exit(1)
+        else:
+            raise
+    return cache
 
 
 def main(output_path: pathlib.Path, input_path: pathlib.Path, cacheless: bool, jsonl_only: bool) -> None:
@@ -123,7 +147,7 @@ def main(output_path: pathlib.Path, input_path: pathlib.Path, cacheless: bool, j
 
     output_path.mkdir(parents=True)
     print("Downloading data…", flush=True, end=" ")
-    hplt_data: dict[str, str] = hplt_cacheless_data(hplt_ids) if cacheless else hplt_cached_data(hplt_ids)
+    hplt_data: dict[str, str] = get_hplt_data(hplt_ids) if cacheless else get_hplt_cache(hplt_ids)
     print("done")
 
     print("Transforming dataset…", flush=True, end=" ")

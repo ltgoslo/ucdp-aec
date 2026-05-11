@@ -23,6 +23,8 @@ class FuzzyAlign:
     def __call__(self, prediction):
         m = numpy.empty((len(prediction)+1, len(self.template)+1), dtype=numpy.int64)
         parents = numpy.zeros((len(prediction)+1, len(self.template)+1), dtype=numpy.int8)
+        parents[0, 1:] |= 2
+        parents[1:, 0] |= 1
 
         m[:, 0] = numpy.arange(len(prediction)+1)
 

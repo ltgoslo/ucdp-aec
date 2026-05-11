@@ -37,17 +37,20 @@ The `baselines` directory contains model code used in the experiments, some subd
 
 ## Citation
 
-The proceedings are not published yet, but a preprint can be found [here](https://esimon.eu/CPSS2025/paper.pdf).
+You can find our paper [in the ACL anthology](https://aclanthology.org/2025.konvens-2.8/).
 
 ```
 @inproceedings{simon-etal-2025-abstractive,
-    title     = {Abstractive Event Analysis of Armed Conflicts: Introducing the {UCDP-AEC} Dataset},
-    author    = {Simon, \'{E}tienne and Olsen, Helene B\o{}sei and Carre\~{n}o, Ram\'{o}n and Mishra, Rahul and Arefyev, Nikolay and Yilmaz, Mert Can and \O{}vrelid, Lilja and Velldal, Erik},
-    year      = {2025},
-    month     = sep,
-    booktitle = {Proceedings of the 5th Workshop on Computational Linguistics for the Political and Social Sciences},
-    publisher = {Association for Computational Linguistics},
-    address   = {Hildesheim, Germany},
+    title = "Abstractive Event Analysis of Armed Conflicts: Introducing the {UCDP}-{AEC} Dataset",
+    author = "Simon, {\'E}tienne and Olsen, Helene B{\o}sei and Carre{\~n}o, Ram{\'o}n and Mishra, Rahul and Arefyev, Nikolay and Yilmaz, Mert Can and {\O}vrelid, Lilja and Velldal, Erik",
+    editor = "Wartena, Christian and Heid, Ulrich",
+    booktitle = "Proceedings of the 21st Conference on Natural Language Processing (KONVENS 2025): Workshops",
+    month = sep,
+    year = "2025",
+    address = "Hannover, Germany",
+    publisher = "HsH Applied Academics",
+    url = "https://aclanthology.org/2025.konvens-2.8/",
+    pages = "104--119"
 }
 ```
 
